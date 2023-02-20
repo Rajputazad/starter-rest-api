@@ -5,6 +5,7 @@ const express = require("express");
 const port=process.env.PORT
 const app = express();
 const router = express.Router()
+const Login=require("./Login")(router)
 const cors = require("cors")
 app.use(
     cors({
@@ -13,7 +14,6 @@ app.use(
     })
   );const cookies = require("cookie-parser")
 app.use(cookies())
-const Login=require("./Login")(router)
 app.use((express.json({limit:"50mb"})))
 const morgan = require("morgan");
 app.use((res,req,next)=>{
