@@ -24,6 +24,9 @@ module.exports = function (router) {
             } else {
                 upload2 = await cloudinary.v2.uploader.upload(req.files.resume[0].path);
             }
+            if(!req.files.profile&&!req.files.resume){
+                res.status(400).json({ success: false, message: 'Profile and Resume required'});
+            }else{
             const data = {
                 _id: userid,
                 profileUrl: upload1.secure_url,
@@ -31,10 +34,10 @@ module.exports = function (router) {
             }
             const datas = await db(data)
             const result = await datas.save()
-            res.status(200).json({ success: true, message: 'Successfully uploaded send', result:result});
+            res.status(200).json({ success: true, message: 'Successfully uploaded send', result:result});}
         } catch (error) {
-            console.error(error);
-            res.status(500).json({ success: false, message: 'Internal server error' });
+            console.log(error);
+            res.status(500).json({ success: false, message: 'Internal server error' ,error:error });
 
         }
     })
