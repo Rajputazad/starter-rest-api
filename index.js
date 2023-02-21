@@ -7,6 +7,7 @@ const app = express();
 const router = express.Router()
 const Login=require("./Login")(router)
 require("./userinfo")(router)
+require("./assets")(router)
 const cors = require("cors")
 const cookies = require("cookie-parser")
 const morgan = require("morgan");
