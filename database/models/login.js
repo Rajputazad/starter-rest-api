@@ -24,8 +24,9 @@ const loginSchema = mongoose.Schema({
         type:Boolean
     },
     token:[],
-    theme:{
-        type:String
+    themeid:{
+        type:String,
+        require:true
     }
 })
 

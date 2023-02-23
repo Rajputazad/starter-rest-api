@@ -1,6 +1,6 @@
 const mongoose = require("mongoose")
 
-const loginSchema = mongoose.Schema({
+const aasets = mongoose.Schema({
     _id:{
         type: mongoose.Schema.Types.ObjectId ,
     },
@@ -8,4 +8,4 @@ const loginSchema = mongoose.Schema({
     resumeUrl:{type:String}
 })
 
-module.exports = mongoose.model("User_assets", loginSchema)
+module.exports = mongoose.model("User_assets", aasets)

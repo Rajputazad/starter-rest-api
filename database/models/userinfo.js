@@ -1,6 +1,6 @@
 const mongoose = require("mongoose")
 
-const loginSchema = mongoose.Schema({
+const userinfo = mongoose.Schema({
 _id:{
     type: mongoose.Schema.Types.ObjectId ,
 },
@@ -87,4 +87,4 @@ facebook:{
 },
 })
 
-module.exports = mongoose.model("User_info", loginSchema)
+module.exports = mongoose.model("User_info", userinfo)

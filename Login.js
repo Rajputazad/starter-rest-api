@@ -22,8 +22,9 @@ module.exports = function (router) {
                     email: email,
                     password: hashedPassword,
                     name: req.body.name,
-                    Role_id: 1,
-                    verify: false
+                    role_id: 1,
+                    verify: false,
+                    themeid: "none"
                 });
                 const token = jwt.sign({ userid: creatusere._id }, SECRET_KEY, {
                     expiresIn: "24h"
@@ -55,9 +56,17 @@ module.exports = function (router) {
                 return res.status(401).json({ success: false, message: 'Invalid credentials' });
             }
 
-            const token = jwt.sign({ userid: user._id }, SECRET_KEY, {
+            const token = jwt.sign({ userid: user._id, role_id: user.role_id }, SECRET_KEY, {
                 expiresIn: "24h"
             });
+            if (!user.themeid) {
+                user.themeid = "none"
+            }
+            if (!user.role_id) {
+                user.role_id = 1
+            }
+
+
             user.token[0] = token
             await user.save();
             res.status(200).json({ token: token, success: true, message: 'User Login successfully' });
@@ -71,12 +80,28 @@ module.exports = function (router) {
     router.get('/home', auth, async (req, res) => {
         try {
             const userid = req.decoded.userid;
-            const userdatas = await db.findById(userid).select("-password");
+            const userdatas = await db.findById(userid).select("-password -token");;
             res.status(200).json({ success: true, data: userdatas });
         } catch (error) {
             res.status(500).json({ success: false, message: 'Internal server error' });
         }
     })
+
+
+    router.put('/themeselect', auth, multer.any(), async (req, res) => {
+        try {
+            const userid = req.decoded.userid;
+            await db.findByIdAndUpdate(userid, { themeid: req.body.themeid });
+            const user = await db.findById(userid).select("-password -token")
+            res.status(200).json({ success: true, message: 'Theme successfully selected', data: user });
+        } catch (error) {
+            res.status(500).json({ success: false, message: 'Internal server error' });
+        }
+    })
+
+
+
+
 
 
     return router
