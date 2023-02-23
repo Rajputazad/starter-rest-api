@@ -27,10 +27,10 @@ module.exports = function (router) {
     })
 
 
-    router.post("/userinfoGet", multer.any(), async (req, res) => {
+    router.get("/userinfo/:_id", multer.any(), async (req, res) => {
         try {
-            const userid = req.body;
-            const userdatas = await db.findById(userid._id)
+            const userid = req.params._id;
+            const userdatas = await db.findById(userid)
             res.status(200).json({ success: true, data: userdatas });
         } catch (error) {
             res.status(500).json({ success: false, message: 'Internal server error' });
