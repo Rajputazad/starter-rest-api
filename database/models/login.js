@@ -27,6 +27,18 @@ const loginSchema = mongoose.Schema({
     themeid:{
         type:String,
         require:true
+    },
+    themeselection:{
+        type:String
+    },
+    information:{
+        type:String
+    },
+    assets:{
+        type:String
+    },
+    portfoliourl:{
+        type:String
     }
 })
 

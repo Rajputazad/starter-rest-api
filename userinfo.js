@@ -1,12 +1,17 @@
 const db = require("./database/models/userinfo")
+const login = require("./database/models/login")
 const multer = require("multer")()
 const auth = require("./middleware/auth")
 module.exports = function (router) {
 
     router.post('/userinfo', auth,multer.any(), async (req, res) => {
         try {
+            const userid = req.decoded.userid;
+            const userdatas = await login.findById(userid)
             const data = await db(req.body)
-            const result = await data.save()
+            await data.save()
+            userdatas.information="done"
+            await userdatas.save()
             res.status(200).json({ success: true, message: 'User Infomation successfully send' });
         } catch (error) {
             console.error(error);

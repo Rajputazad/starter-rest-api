@@ -4,6 +4,8 @@ const auth = require("./middleware/auth")
 const fs = require("fs");
 const db = require("./database/models/assets")
 const cloudinary = require("./middleware/cloudinary");
+const login = require("./database/models/login")
+
 module.exports = function (router) {
 
     router.post('/assets', auth, multer.fields([
@@ -32,8 +34,11 @@ module.exports = function (router) {
                 profileUrl: upload1.secure_url,
                 resumeUrl: upload2.secure_url
             }
+            const userdatas = await login.findById(userid)
             const datas = await db(data)
             const result = await datas.save()
+            userdatas.assets="done"
+            await userdatas.save()
             res.status(200).json({ success: true, message: 'Successfully uploaded send', result:result});}
         } catch (error) {
             console.log(error);

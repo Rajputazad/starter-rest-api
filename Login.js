@@ -59,12 +59,7 @@ module.exports = function (router) {
             const token = jwt.sign({ userid: user._id, role_id: user.role_id }, SECRET_KEY, {
                 expiresIn: "24h"
             });
-            if (!user.themeid) {
-                user.themeid = "none"
-            }
-            if (!user.role_id) {
-                user.role_id = 1
-            }
+           
 
 
             user.token[0] = token
@@ -93,6 +88,9 @@ module.exports = function (router) {
             const userid = req.decoded.userid;
             await db.findByIdAndUpdate(userid, { themeid: req.body.themeid });
             const user = await db.findById(userid).select("-password -token")
+            user.themeselection="done"
+            user.portfoliourl=req.body.portfoliourl
+            await user.save()
             res.status(200).json({ success: true, message: 'Theme successfully selected', data: user });
         } catch (error) {
             res.status(500).json({ success: false, message: 'Internal server error' });
