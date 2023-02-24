@@ -3,7 +3,7 @@ const mongoose = require("mongoose")
 const theme = mongoose.Schema({
     
     themename:{
-        require: [true, "themenamename  required"],
+        require: [true, "themename  required"],
         type:String
     },
   
