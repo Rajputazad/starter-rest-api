@@ -10,7 +10,7 @@ module.exports = function (router) {
     router.post('/themeadd', auth, multer.single("theme"), async (req, res) => {
         try {
             const role_id = req.decoded.role_id
-            console.log(role_id);
+           
             if (role_id == 0) {
                 const upload = await cloudinary.v2.uploader.upload(req.file.path)
                 res.status(200).json({ success: true, message: 'theme successfully added' });
